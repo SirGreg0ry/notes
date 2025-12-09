@@ -1,4 +1,4 @@
-  ------------------------------------------------------------------
+------------------------------------------------------------------
 
 ## Chapter 2 – Using Essential Tools
 
@@ -42,28 +42,29 @@
 - ` export MY_VAR="some_value`
 - ` export PATH=$PATH:/my/custom/directory`
 
-
 ------------------------------------------------------------------
 
 ## Chapter 3 – Essential File Management Tools
 
 # theory
-- Filesystem Hierarchy Standard (FHS)
+- device
 - Root directory
 - Device file
 - Glob / wildcards
 - Absolute pathname
 - Relative pathname
+- Hidden files
 - Inodes
 - Hard links
 - Soft / symbolic links
-- Compression
+- Compression   
 
 # command/variable
 - `mount`
 - `df`
 - `findmnt`
 - `touch`
+- `*, ?, []`
 - `ls`
 - `cp`
 - `mv`
@@ -77,10 +78,18 @@
 
 # file configurations
 
+# man pages 
+man 7 file-hierarchy
+
 ------------------------------------------------------------------
 
 ## Chapter 4 – Working with Text Files
 
+# theory
+- Regular expressions
+- Escaping
+
+# command/varaible 
 - `less`
 - `cat`
 - `head`
@@ -92,15 +101,19 @@
 - `sed`
 - `awk`
 
+# files
+
+# file configuration
+
+# man pages
+
 ------------------------------------------------------------------
-3 thenbuer recurisv the fne bnubme nubmer fgh 
-console 
-temina,. 
 
 ## Chapter 5 – Connecting to Red Hat RHEL
 
+# theory
 
-
+# commnad/variable
 - Console
 - Terminal
 - `sudo`
@@ -131,6 +144,11 @@ temina,.
 ~/.ssh/config
 /etc/ssh/ssh_config
 /etc/ssh/sshd_config
+
+# file confiugration
+
+# man pages
+
 ------------------------------------------------------------------
 
 ## Chapter 6 – User and Group Management
