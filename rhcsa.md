@@ -9,21 +9,27 @@
 - Alias
 - Internal command
 - External command
-- Redirection
+- Redirection(stdin, stdout, stderr, append)
 - Device files
 - Pipe
 - History
 - Bash completion
 - Environment
-- Variables
+- Variables(environment vs shell/local variables)
 - Login shell
 - Subshell
+- Command search order (alias → functions → builtins → $PATH)
+- Exit status and $?
 
 # command / variable
 - `$PATH`
+- `$PS1` (prompt)
+- `$1` (exit status)
 - `echo`
+- `printf`
 - `which`
 - `type`
+- `alias, unalias`
 - `history`
 - `--help`
 - `man`
@@ -32,17 +38,30 @@
 - `apropos`
 `
 # files
-- `/etc/profile`
-- `/etc/bashrc`
-- `~/.bash_profile`
-- `~/.bashrc`
-- `/etc/motd`
-- `/etc/issue`
+- /etc/profile
+- /etc/bashrc
+- ~/.bash_profile
+- ~/.bashrc
+- ~/.bash_logout
+- /etc/motd
+- /etc/issue
 
 # file configurations
 - ` export MY_VAR="some_value`
 - ` export PATH=$PATH:/my/custom/directory`
+- `MY_LOCAL_VAR="value" (non-exported shell variable)`
+- `Simple aliases in ~/.bashrc, for example: alias ll='ls -l'`
 
+# Man Pages
+- man bash
+- man sh
+- man 1 intro
+- man 1 man 
+
+# Exam Tips
+- Practice distinguishing internal vs external commands with type and which.
+- Practice creating, exporting, and persisting variables/aliases via ~/.bashrc and ~/.bash_profile.
+- Use man -k and apropos constantly so command discovery is automatic under time pressure.
 
 ------------------------------------------------------------------
 
@@ -797,20 +816,161 @@ man 7 file-hierarchy
 ### Chapter 19 - An Introduction to Automation with Bash Shell Scripting
 
 # theory
+- shebang
+- parent shell
+- subshell
+- $PATH
+- variable
+- conditional loops
+- case statement
+
 
 # commands/variables
+- `bash`
+- `TODAY=$(date +%d-%m-%y)`
+- `if … then … else`
+- `for`
+- `while`
+- `until`
+- `case`
+- ` || &&`
+- `bash -x`
 
 # files
 
 # file configuration
 
 # Man pages
+- `man bash`
 
 # Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+### Chapter 20  - Configuring SSH
+
+# theory
+- Dictionary attacks
+- Disable root login 
+- Disable password login
+- Configure non-default port for ssh login
+- Allow specific user to login ssh
+- AUTHPRIV syslog facility
+- Public/Private key passphrase
+- SSH host keys and known_hosts / MITM protection
+- StrictHostKeyChecking concept
+- SELinux and ssh_port_t when changing SSH port
+- Difference between TCPKeepAlive and ClientAlive* keepalives
+
+# commands/variables
+- `ssh-keygen`
+- `ssh-copy-id`
+- `ssh-agent`
+- `ssh-add`
+- `semanage port`
+- `semanage port -l`
+- `semanage port -a -t ssh_port_t -p tcp 2022`
+- `semanage port -m`
+- `firewall-cmd --add-service=ssh`
+- `firewall-cmd --add-port=2022/tcp`
+
+# files
+- /etc/ssh/sshd_config 
+- ~/.ssh/authorized-keys
+- ~/.ssh/known_hosts
+
+# file configurationo
+- `port`
+- `PasswordAuthenticaion`
+- `PublicAuthentication`
+- `AuthorizedKeysFile`
+- `AllowUsers`
+- `Allowgroups`
+- `PermitRootLogin`
+- `LoginGraceTime`
+- `MaxAuthTries`
+- `UseDNS`
+- `MaxSessions`
+- `TCPKeepAlive`
+- `ClientAliveInterval`
+- `ClientAliveCountMax`
+- `ServerAliveInterval` 
+- `ServerAliveCountMax`
+
+# Man pages
+- ssh(1)
+- sshd(8)
+- ssh_config(5)
+- sshd_config(5)
+- semanage-port(8)
+
+# Examp Tips
+- Practice: change SSH port + update SELinux + update firewalld + test login.
+- Practice: configure key-based auth, disable password auth, verify login still works.
+- Avoid locking yourself out: keep a second root/console session open while changing SSH.
+
+------------------------------------------------------------------
+
+### Chapter 21 - Managing Apache HTTP Services
+
+# theory
+- chroot environment
+
+- Apache Virtual Hosts
+    1. The client opens a browser and enters the website URL.
+    2. DNS resolves the URL to the Apache server’s IP.
+    3. Apache receives the request and inspects the HTTP headers to see which virtual host it targets.
+    4. Apache loads that virtual host’s configuration to determine its document root.
+    5. Apache serves the requested file from that document root.
+
+- Virtual hosting recemndations
+    1. Virtual-hosted Apache servers should handle every site through a virtual host.
+    2. Create a _default_:80 virtual host as a catch-all so unmatched requests do not randomly hit the first configured vhost.
+    3. Name-based virtual hosts share one IP but use different hostnames and are the most common setup.
+    4. IP-based virtual hosts each use a unique IP and are typically used when a site must have its own address or for some TLS setups.
+
+# commands/variables
+- `dnf group install "Basic Web Server"`
+- `dnf install curl`
+- `systemctl status httpd mod_ssl`
+- `systemctl enable --now httpd`
+- `systemctl restart httpd`, 
+- `systemctl is-enabled httpd`
+- `httpd -t`
+- `apachectl configtest`
+
+# files
+- /etc/httpd 
+- /etc/httpd/conf/httpd.conf
+- /etc/httpd/conf.d 
+- /etc/httpd/conf.modules.d
+- /etc/httpd/conf.d/ssl.conf
+
+# file configuration
+- `DocumentRoot`
+- `ServerRoot`
+- `Listen`
+- `ServerName`, `ServerAlias`
+- `<Directory>`, `AllowOverride`
+- `ErrorLog`, `CustomLog`
+- `LoadModule` 
+- `SSLEngine on`
+- `SSLCertificateFile`
+- `SSLCertificateKeyFile`
+
+# Man pages
+- httpd(8)
+- apachectl(8)
+- httpd.conf(5)
+
+# Examp Tips
+- Always run httpd -t before restarting.​
+- Know default doc root: /var/www/html.​
+- Know default doc root: /var/www/html.​
+
+------------------------------------------------------------------
+
+### Chapter 22 - Managing SELinux
 
 # theory
 
@@ -888,36 +1048,4 @@ man 7 file-hierarchy
 
 # Examp Tips
 
-------------------------------------------------------------------
-
-### Chapter  - 
-
-# theory
-
-# commands/variables
-
-# files
-
-# file configuration
-
-# Man pages
-
-# Examp Tips
-
-------------------------------------------------------------------
-
-### Chapter  - 
-
-# theory
-
-# commands/variables
-
-# files
-
-# file configuration
-
-# Man pages
-
-# Examp Tips
-
-------------------------------------------------------------------
+-
