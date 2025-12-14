@@ -1,3 +1,4 @@
+
 ------------------------------------------------------------------
 
 ### Chapter 2 – Using Essential Tools
@@ -658,11 +659,27 @@ man 7 file-hierarchy
 - Hardware Initialization
 - Driver
 - Tainted Kernel
+- /proc
+- modules
+- systemd-udevd process
 
 # commands/variables
 - `dmesg`
+- `journalctl -k`
+- `uname`
+- `hostnamectl status`
+- `udevadm`
+- `lsmod`
+- `modinfo`
+- `modprobe`
+- `modprobe -r`
+- `lspci`
+- `lspci -k`
+- `dnf install kernel`
+- `dnf upgrade kernel`
 
 # files
+- /proc
 
 # file configuration
 
@@ -672,29 +689,102 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+### Chapter 17 - Managing and Understanding the Boot Procedure
 
 # theory
+- Systemd
+- emergency.target
+- rescue.target
+- multi-user.target
+- graphical.target
+- dependencie
+- target unit file
+- target isolation
+- run level 0-6
+- GRUB2 boot loader
+- kernel
+- initramfs
 
 # commands/variables
+- `systemctl enable`
+- `systemctl disable`
+- `systemctl isolote`
+- `systemctl -t target --all`
+- `systemctl get-default`
+- `dnf group list`
+- `dnf group install "server with gui"`
+- `grub2-mkconfig`
+- `rhgb`
+- `quite`
+- `grub2-mkconfig -o /boot/grub2/grub.cfg`
+- `grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg`
 
 # files
+- /etc/default/grub 
+- /etc/grub.d.
+- /boot/grub2/grub.cfg
+- /boot/efi/EFI/redhat/grub.cfg 
 
 # file configuration
+- `GRUB_CMDLINE_LINUX`
+- `GRUB_TIMEOUT`
 
 # Man pages
+- `man 7 booparam`
 
 # Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+### Chapter 18 - Essential Troubleshooting Skills
 
 # theory
+- Boot procedure:
+    1. Performating POST
+    2. Selecting the bootable device
+    3. Loading the boot order
+    4. Loading the Kernel
+    5. Starting /sbin/init
+    6. Processing initrd.target
+    7. Switching to the root file system
+    8. Running the default target
+
+- GRUB 2 menu
+
+- Using Rescue Disk
+    1. Install Red Hat Enterprise Linux 9 in Basic Graphics Mode
+    7. Rescue a Red Hat Enterprise Linux System:
+    3. Run a Memory Test
+    4. Boot from Local Drive
+
+- Resetting Root Password
+    1. On system boot, press e when the GRUB 2 boot menu is shown
+    2. Enter init=/bin/bash as a boot argument to the line that loads the kernel and press Ctrl-X to boot with this option
+    3. Once a root shell is opened, type mount -o remount,rw / to get read/write access to the root filesystem.
+    4. Now you can enter passwd and set the new password for the user root
+    5. touch /.autorelabel to create the autorelabel file in the root directory
+    6. exec /usr/lib/systemd/systemd to replace /bin/bash (which is the current PID 1) with Systemd.
+    7. Verify that you can log in as the root user after rebooting.
 
 # commands/variables
+- `rd.break`
+- `init=/bin/sh or init=/bin/bash`
+- `systemd.unit=emergency.target`
+- `systemd.unit=rescue.target`
+- `chroot`
+- `grub2-install`
+- `grub2-install /dev/sda`
+- `dracut`
+- `grub2-install`
+- `chroot /mnt/sysimage`
+- `dracut --force`
+- `fsck`
+- `journalctl -xb`
+- `mount -o remount,rw /`
 
 # files
+- /usr/lib/dracut/dracut.conf.d/*.conf c
+- /etc/dracut.conf.d 
 
 # file configuration
 
@@ -704,7 +794,7 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+### Chapter 19 - An Introduction to Automation with Bash Shell Scripting
 
 # theory
 
