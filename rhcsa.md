@@ -1,9 +1,9 @@
 
 ------------------------------------------------------------------
 
-### Chapter 2 – Using Essential Tools
+# Chapter 2 – Using Essential Tools
 
-# theory 
+### theory 
 - Shell
 - Bash
 - Alias
@@ -21,7 +21,7 @@
 - Command search order (alias → functions → builtins → $PATH)
 - Exit status and $?
 
-# command / variable
+### command / variable
 - `$PATH`
 - `$PS1` (prompt)
 - `$1` (exit status)
@@ -37,7 +37,7 @@
 - `mandb`
 - `apropos`
 `
-# files
+### files
 - /etc/profile
 - /etc/bashrc
 - ~/.bash_profile
@@ -46,19 +46,19 @@
 - /etc/motd
 - /etc/issue
 
-# file configurations
+### file configurations
 - ` export MY_VAR="some_value`
 - ` export PATH=$PATH:/my/custom/directory`
 - `MY_LOCAL_VAR="value" (non-exported shell variable)`
 - `Simple aliases in ~/.bashrc, for example: alias ll='ls -l'`
 
-# Man Pages
+### Man Pages
 - man bash
 - man sh
 - man 1 intro
 - man 1 man 
 
-# Exam Tips
+### Exam Tips
 - Practice distinguishing internal vs external commands with type and which.
 - Practice creating, exporting, and persisting variables/aliases via ~/.bashrc and ~/.bash_profile.
 - Use man -k and apropos constantly so command discovery is automatic under time pressure.
