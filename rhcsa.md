@@ -3,7 +3,7 @@
 
 # Chapter 2 – Using Essential Tools
 
-### theory 
+### Theory 
 - Shell
 - Bash
 - Alias
@@ -21,23 +21,30 @@
 - Command search order (alias → functions → builtins → $PATH)
 - Exit status and $?
 
-### command / variable
+### Commands / Variables
 - `$PATH`
-- `$PS1` (prompt)
-- `$1` (exit status)
+- `>`, `>>`, `2>`, `2>&1`,  `<`
 - `echo`
 - `printf`
 - `which`
 - `type`
 - `alias, unalias`
 - `history`
+    Ctrl-r
+    `!integer`
+    `history -d integer`
+    `!string`
+    `history -c`
+    `history -w`
+- `$LANG`
 - `--help`
 - `man`
-- `man -k`
+    `man -k`
+    `man -k partition | grep 8`
 - `mandb`
 - `apropos`
-`
-### files
+
+### Files / File Configurations
 - /etc/profile
 - /etc/bashrc
 - ~/.bash_profile
@@ -46,7 +53,7 @@
 - /etc/motd
 - /etc/issue
 
-### file configurations
+### File Configurations
 - ` export MY_VAR="some_value`
 - ` export PATH=$PATH:/my/custom/directory`
 - `MY_LOCAL_VAR="value" (non-exported shell variable)`
@@ -65,76 +72,158 @@
 
 ------------------------------------------------------------------
 
-### Chapter 3 – Essential File Management Tools
+# Chapter 3 – Essential File Management Tools
 
-# theory
-- device
-- Root directory
-- Device file
-- Glob / wildcards
-- Absolute pathname
-- Relative pathname
-- Hidden files
+### Theory
+- Device
+- Root Directory
+- Device File
+- Globbing / wildcards
+- Absolute Pathname
+- Relative Pathname
+- Hidden Files
 - Inodes
-- Hard links
-- Soft / symbolic links
+- Hard Links
+- Soft / Symbolic Links
 - Compression   
+- FHS File System Hierarchy 
 
-# command/variable
+### Command/Variables
+- `find`
+    `find -inum "inode number"`
+    `find -name "pattern"`
+    `find -iname "pattern`
+    `find -type f/d/l`
+    `find -size +100M/-1k`
+    `find -user username/-group group`
+    `find -mtime -1/+7`
+    `find -perm 755/-644`
+    `find -exec cmd {} \;`
+    `find -delete`
 - `mount`
 - `df`
+    `df -Th`
 - `findmnt`
 - `touch`
-- `*, ?, []`
+- `*, ?, [], [!]`
 - `ls`
+    `ls -l`
+    `ls -a`
+    `ls -lrt`
+    `ls -d`
+    `ls -R`
 - `cp`
+    `cp -R /etc /tmp`
+    `cp /somedir/.* /tmp`
+    `cp -a /somedir/ .`
+    `cp -a /somedir/. .`
 - `mv`
-- `mkdir`
-- `rmdir`
+    `mv myfile /tmp`
+    `mkdir somefiles; mv somefiles /tmp`
+    `mv myfile mynewfile`
 - `rm`
+    `rm -rf`
+- `mkdir`
+    `mkdir -p`
+- `rmdir`
 - `ln`
+    `ln /etc/hosts .`
+    `ln -s /etc/hosts .`
+    `ln -s /home /tmp`
 - `tar`
+    `tar -cvf /root/homes.tar /home`
+    `tar -rvf /root/homes.tar /etc/hosts`
+    `tar -uvf /root/homes.tar /home`
+    `tar -tvf /root/homes.tar`
+    `tar -xvf /archivename.tar`
+    `tar -xvf /root/homes.tar`
+    `tar -xvf homes.tar -C /tmp`
+    `tar -xvf /root/etc.tar etc/hosts`
+    `-z`, `-j`, `-J`
+- `gzip`
+- `bzip2`
 
-# files
+### Files / File Configurations
 
-# file configurations
-
-# man pages 
+### Man Pages 
 man 7 file-hierarchy
 
+### Exam Tips
+
 ------------------------------------------------------------------
 
-### Chapter 4 – Working with Text Files
+# Chapter 4 – Working with Text Files
 
-# theory
-- Regular expressions
+### Theory
+- Line Anchor
 - Escaping
+- Regular Expressions
 
-# command/varaible 
+### Command/ Varaibles
 - `less`
+    `?sometext`
+    `/sometext`
+    `less +F /var/log/messages`
 - `cat`
+    `cat -n file`
 - `head`
+    `head -n 11 /etc/passwd | tail -n 1`
+    `head -n 5 file`
 - `tail`
+    `tail -n 5 /etc/passwd`
+    `tail -f /var/log/messages`
+    `tail -n 5 file`
 - `cut`
+    `cut -d : -f 1 /etc/passwd`
+    `cut -f 1 -d : /etc/passwd | sort`
 - `sort`
+    `sort /etc/passwd`
+    `du -h | sort -rn`
+    `sort -k3 -t : /etc/passwd`
+    `ps aux | sort -k 4 -n`
 - `wc`
+    `ps aux | wc`
 - `grep`
-- `sed`
+    `grep anna /etc/passwd`
+    `grep ^anna /etc/passwd`
+    `grep ash$ /etc/passwd`
+    `grep '^anna' /etc/passwd`
+    `^`, `$`, `.`, `[abc]`, `?`, `+`, `*`, `(...)`, `|`, `colou?r`
+    `grep -i pattern file`
+    `grep -v pattern file`
+    `grep -r pattern /path`
+    `grep -E 'pat1|pat2' file`
 - `awk`
+    `awk -F : '{ print $4 }' /etc/passwd`
+    `awk -F : '/user/ { print $4 }' /etc/passwd`
+    `awk -F: '{print $1,$3}' /etc/passwd`
+    `awk -F: '$3 >= 1000 {print $1,$3}' /etc/passwd`
+    `sed 's/old/new/g' file > file.new`
+- `sed`
+    `sed -n 5p /etc/passwd`
+    `sed -i s/old-text/new-text/g ~/myfile`
+    `sed -i -e '2d' ~/myfile`
+    `sed -i -e '2d;20,25d' ~/myfile`
+    `sort file | uniq`
+    `sort file | uniq -c`
 
-# files
+### Files / File Configurations
+- man 7 regex
 
-# file configuration
+### Man Pages
 
-# man pages
+### Exam Tips
+- Always verify with non‑destructive commands before sed -i or overwriting files.
+- Remember that on exam, using built‑in docs (man, --help) is allowed and expected.
 
 ------------------------------------------------------------------
 
-### Chapter 5 – Connecting to Red Hat RHEL
+# Chapter 5 – Connecting to Red Hat RHEL
 
-# theory
+### Theory
 - Console
 - Terminal
+- Changing Terminals wth alt-ctrl F1-F6
 - tty
 - psudeo terminal
 - Subshell
@@ -142,8 +231,11 @@ man 7 file-hierarchy
 - Public key
 - Private key
 - X11 server
+- Root User privileges
+- SSH host keys
+- shell environments
 
-# commnad/variable
+### Commands/ Variables
 - `sudo`
 - `term`
 - `su`
@@ -154,26 +246,46 @@ man 7 file-hierarchy
 - `systemctl halt`
 - `systemctl poweroff`
 - `ssh`
-- `systemctl status sshd`
+    `ssh root@192.168.29.161`
+    `ssh -Y linda@server2`
+    `-v`, `-Y`, `-p <>`
+- `systemctl`
+    `systemctl status sshd`
+    `systemctl start|stop|enable|disable sshd`
 - `ip a | grep 'inet '`
 - `sed -i -e '25d' ~/.ssh.known_hosts`
 - `scp`
+    `scp /etc/hosts server2:/tmp`
+    `scp root@server2:/etc/passwd ~`
+    `scp -r server2:/etc/ /tmp`
+    `-P`
 - `sftp`
+    `sftp student@server2`
 - `rsync`
+    `-r`, `-l`, `-p`, `-n`, `-a`, `-A`, `-X`
 - `ssh-keygen`
+    `ssh-keygen -t ed25519`
 - `ssh-copy-id`
 
-# files
+### Files / File Configurations
 - ~/ssh
 - ~/.ssh/authorized_keys
 - ~/.ssh/config
 - /etc/ssh/ssh_config
+    `ForwardX11 yes`
+    `PermitRootLogin no`
+    `PasswordAuthentication no`
+    `PubkeyAuthentication yes`
 - /etc/ssh/sshd_config
 
-# file confiugration
-- Forward X11
+# Man Pages
+- `man ssh`
+- `man sshd_config`
+- `man ssh-keygen`
+- `man sftp`
+- `man rsync`
 
-# man pages
+# Exam Tips
 
 ------------------------------------------------------------------
 
@@ -191,6 +303,7 @@ man 7 file-hierarchy
 - Primary group
 
 # commands/variables
+- `last`, `lastb`
 - `id`
 - `sudo`
 - `su`
@@ -970,82 +1083,357 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter 22 - Managing SELinux
+# Chapter 22 - Managing SELinux
 
-# theory
+### theory
+- MAC
+- DAC
+- policy
+- Source Domain 
+- Target Domain
+- Context
+- Rule
+- Label
+- Selinux modes: enforcing, permissive, disabled
+- context labels
+    1. User
+    2. Role
+    3. Type
+- audit log
+- source context
+- target context
+- subject (process) vs object(file/dir/port) type-enforcemtn based
 
-# commands/variables
+### commands/variables
+- `getenforce`
+- `setenforce`
+- `grub2-mkconfig -o /boot/grub2/grub.cfg`
+- `sepolicy generate`
+- `ls -Z`
+- `chcon`
+- `dnf whatprovides */semanage`
+- `semanage fcontext -a -t httpd_sys_content_t "/mydir(/.*)?"`
+- `man -k _selinux`
+- `restorecon`
+     `restorecon -Rv /`
+     `restorecon -R -v /mydir`
+- `semanage`
+     `semanage port -a -t http_port_t -p tcp 8008`
+     `semanage fcontext -l`
+     `semanage fcontext -c`
+     `semanage boolean -l`
+     `semanage porl -l `
+- `getsebool -a`
+- `setsebool`
+     `setsebool ftpd_anon_write on`
+     `setsebool -P`
+- `sealert`
+- `sestatus`
+- `ps -eZ`
+- `id -Z`
 
-# files
+### files
+- /etc/default/grub
+    `selinux=0`
+    `enforcing=0`
+- /etc/sysconfig/selinux
+    `SELINUX=enforcing|permissive|disabled`
+    `SELINUXTYPE=targeted`
+- /var/log/audit/audit.log
+- /etc/selinux
+- /sys/fs/selinux
 
-# file configuration
+### Man pages
+- selinux (8)
+- semanage (8)
+- sestatus (8)
+- selinux_config(5)
 
-# Man pages
-
-# Examp Tips
+### Exam Tips
+- Note that SELinux is MAC on top of DAC and that DAC is still checked first
+- Checking context with ls -Z / ps -Z.
+- Using restorecon -Rv PATH before chcon or custom fcontext
+- For services on non-default ports: change with semanage port -a/-m and verify with semanage port -l
+- For weird service failures on exam, briefly try setenforce 0 to confirm SELinux is the cause, then revert to enforcing after fixing
+- If semanage or sealert missing, install with dnf whatprovides */semanage or the package suggested by the exam system.
+- Remember sestatus shows both current mode and config file setting.
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+# Chapter 23 - Configuring a Firewall
 
-# theory
+### theory
+- Firewalld is frontend using nftables(rules are applied per zone to interfaces and sources)
+- One‑liner for “rich rules” (more granular matching than simple service/port adds)
+- firewall
+- Netfilter
+- Firewalld
+- nftables
+- zone
+    1. block
+    2. dmz
+    3. drop
+    4. external
+    5. home
+    6. internal
+    7. public
+    8. trusted
+    9. work
 
-# commands/variables
+### commands/variables
+- `nft`
+- `firewall-cmd`
+    `firewall-cmd --runtime-to-permanent`
+    `firewall-cmd --get-zones`
+    `firewall-cmd --get-default-zone`
+    `firewall-cmd --set-default-zone=<ZONE>`
+    `firewall-cmd --get-services`
+    `firewall-cmd --list-services`
+    `firewall-cmd --add-service=<service-name> [--zone=<ZONE>]`
+    `firewall-cmd --remove-service=<service-name>`
+    `firewall-cmd --list-all-zones`
+    `firewall-cmd --add-port=<port/protocol> [--zone=<ZONE>]`
+    `firewall-cmd --remove-port=<port/protocol> [--zone=<ZONE>]`
+    `firewall-cmd --add-interface=<INTERFACE> [--zone=<ZONE>]`
+    `firewall-cmd --remove-interface=<INTERFACE> [--zone=<ZONE>]`
+    `firewall-cmd --add-source=<ipaddress/netmask> [--zone=<ZONE>]`
+    `firewall-cmd --remove-source=<ipaddress/netmask> [--zone=<ZONE>]`
+    `firewall-cmd --permanent`
+    `firewall-cmd --runtime-to-permanent`
+    `firewall-cmd --reload`
+    `firewall-cmd --zone=<ZONE> --list-all`
+    `firewall-cmd --state`
+    `firewall-cmd --add-rich-rule='rule family="ipv4" source address="192.0.2.10" service name="ssh" accept'`
+- `firewall-config`
 
-# files
+### files / file configurations
+- /etc/firewalld/services
+- /etc/firewalld/zones/
+- /usr/lib/firewalld/services
 
-# file configuration
+### Man pages
+- firewalld(1)
+- firewall-cmd(1)
+- firewall.zone(5)
 
-# Man pages
-
-# Examp Tips
+### Exam Tips
+- Assign interface to the correct zone
+- Open a service or port in a specific zone and make it persistent
+- Prefer services over ports when available
+- If something works from localhost but not remotely, check:
+    Service listening on the correct interface.
+    firewalld zone and rules for that interface
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+# Chapter 24 - Accessing Network Storage
 
-# theory
+### theory
+- NFS
+- automount
+- autofs
 
-# commands/variables
+### commands/variables
+- `mount`
+- `showmount -e nfsserver`
+- `autofs`
+- `* -rw server2:/users/&`
 
-# files
+### files/ file configurations
+- /etc/exports
+- /etc/fstab
+    `server1:/share /nfs/mount/point nfs sync 0 0`
+- /etc/auto.master.
+    `/nfsdata /etc/auto.nfsdata`
+- nfsdata/files
+    `files -rw server2:/nfsdata`
 
-# file configuration
+### Man pages
 
-# Man pages
-
-# Examp Tips
-
-------------------------------------------------------------------
-
-### Chapter  - 
-
-# theory
-
-# commands/variables
-
-# files
-
-# file configuration
-
-# Man pages
-
-# Examp Tips
+### Exam Tips
 
 ------------------------------------------------------------------
 
-### Chapter  - 
+# Chapter 25 - Configuring Time Services
 
-# theory
+### theory
+- real-time clock RTC
+- hardware time
+- Coordinated Universal Time UTC
+- System time
+- time synchronization
+- network time protocol NTP
+- stratum
+- chronyd process
+- chrony service
 
-# commands/variables
+### commands/variables
+- `timedatectl`
+    `timedatectl set-ntp 1`
+    `timedatectl status`
+    `timedatectl set-time "YYYY-MM-DD HH:MM:SS"`
+    `timedatectl set-timezone Region/City`
+    `timedatectl list-timezone`
+    `timedatectl set-local-rtc [0|1]`
+    `timedatectl set-ntp [0|1]`
+- `date`
+    `date -u`
+    `date "+%Y-%m-%d %H:%M:%S"`
+- `hwclock`
+    `hwclock --show`
+    `hwclock --hctosys`
+    `hwclock --systohc`
+    `hwclock --systohc --utc`
+    `hwclock --systohc --localtime` 
+- `chronyc`
+    `chronyc tracking`
+    `chronyc sources -v`
+    `chronyc makestep`
+- `systemctl`
+    `systemctl status chronyd`
+    `systemctl enable --now chronyd`
+    `systemctl restart chronyd`
+- `ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime`
+- `tzselect`
 
-# files
+### files / file configurations
+- /etc/chrony.conf 
+    `server`
+    `pool`
+- /usr/share/zoneinfo
+    `America/New_York`
+- /etc/localtime
+- /etc/adjtime
 
-# file configuration
+### Man pages
+- man timedatectl
+- man date
+- man hwclock
+- man chrony.conf
+- man chronyc
 
-# Man pages
+### Exam Tips
+- On the exam, always check timedatectl status first to see current time, time zone, and whether NTP is enabled
+- If a task says “configure time service clients,” that means:
+    1. Ensure chronyd is installed (dnf install chrony if needed).
+    2. Edit /etc/chrony.conf to point to the correct NTP servers (if specified).
+    3. Enable and start chronyd with systemctl enable --now chronyd or use timedatectl set-ntp 1
+- Use timedatectl set-timezone instead of manually editing /etc/localtime unless the task specifically asks for the symlink method
+- If the system is not syncing time, check:
+    1. chronyd service status (systemctl status chronyd)
+    2. Network connectivity to NTP servers (firewall, routing)
+    3. Correct server entries in /etc/chrony.conf
+- Remember that timedatectl set-time and date only affect system time; use hwclock --systohc to also update the hardware clock if needed
 
-# Examp Tips
+------------------------------------------------------------------
 
--
+# Chapter 26 - Managing Containers
+
+### theory
+- overlay filesystem
+- container
+- container filej
+- container engine
+- container registry
+- chroot jails
+- namespace
+    1. Mount
+    2. Process
+    3. Network
+    4. User
+    5. Interprocess communication
+- Cgroups
+- docker
+- podman
+- rootless containers
+- CRI-o container runtime
+- Container Orchestration
+- Kubernetes
+- OpenShift
+- containter images
+- open container initiative OCI
+- image housekeeping
+- managing containers
+- orchrestration
+- bind mounted directories
+- linger
+
+### commands/variables
+- `podman`
+    `podman run nginx`
+    `podman run docker.io/library/nginx`
+    `podman run docker.io/librarynginx`
+    `podman run -d nginx`
+    `podman run -it nginx`
+    `podman run -it nginx /bin/sh`
+    `podman run -it nginx /bin/sh`
+    `podman ps`
+    `podman ps -a`
+    `podman info`
+    `podman search`
+    `podman login`
+    `podman login registry.access.redhat.com`
+    `podman inspect`
+    `podman images`
+    `podman pull`
+    `podman run`
+    `podman rmi`
+    `podman build`
+    `podman build -t imagename:tag`
+    `podman build -t mymap:1.0`
+    `podman images`
+    `podman ps`
+    `podman stop`
+    `podman kill`
+    `podman restart`
+    `podman rm`
+    `podman run -rm`
+    `podman exec`
+    `podman exec mycontainer uname -r`
+    `podman exec -it mycontainer /bin/bash`
+    `sudo podman run ...`
+    `sudo podman ps`
+    `podman run --name nginxport -d -p 8080:80 nginx`
+    `sudo firewall-cmd --add-port 8080/tcp --permanent; sudo firewall-cmd --reload`
+    `podman logs`
+    `podman inspect`
+    `podman run -d -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=anna -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=mydb -p 3306:3306 mariadb`
+    `podman run -d --name mydb -v /home/$(id -un)/dbfiles:/var/lib/mysql:Z -e MYSQL_USER=user -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=mydatabaseregistry.redhat.io/rhel9/mariadb-105`
+    `podman unshare`
+    `podman unshare cat /proc/self/uid_map`
+    `podman generate`  
+    `podman generate systemd --name mycontainer --files`
+    `podman generate systemd`
+- `buildah`
+- `skopeo`
+    `skopeo inspect`
+- `semanage`
+    `semanage fcontext -a -t container_file_t"/hostdir(/.*)?"; restorecon`
+    `-v host_dir:container_dir`
+    `host_dir:container_dir:Z`
+- `systemctl`
+    `systemctl enable --now myservice.service`
+    `systemctl --user`
+    `systemctl --user startmyservice.service`
+    `systemctl --user enable container-mycontainer.service`
+- `loginctl`
+    `loginctl enable-linger myuser`
+
+### files / file configurations
+- /etc/containers/registries.conf 
+- ~/containers/storage/
+- Containerfile
+- ~/.config/containers/registries.conf
+
+### Man pages
+- `man podman run`
+- `man podman-generate-systemd`
+- `man skopeo-inspect`
+- `man buildah`
+
+### Exam Tips
+- Install tools first: dnf install podman docker-compose-plugin or dnf module install container-tools
+- Common tasks: Pull image → run with -d -p host:container -v host:container:Z → expose port via firewall-cmd → make systemd service with podman generate systemd --user + loginctl enable-linger $(id -un) + systemctl --user enable --now
+- Rootless by default on RHEL9; use podman unshare sysctl user.max_user_namespaces=15000 if namespace errors occur.
+- Verify: podman ps, curl localhost:8080, check persistent data after restart
+- Troubleshoot: podman inspect <container> for IP/ports; podman image prune for cleanup
