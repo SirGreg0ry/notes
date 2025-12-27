@@ -289,9 +289,9 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter 6 – User and Group Management
+# Chapter 6 – User and Group Management
 
-# theory
+### Theory
 - privileged users
 - unprivileged users
 - root
@@ -300,24 +300,35 @@ man 7 file-hierarchy
 - GUID
 - Home directory
 - Default shell
+- Groups
 - Primary group
 
-# commands/variables
-- `last`, `lastb`
+### Commands/ Variables
 - `id`
+    `id linda`
 - `sudo`
 - `su`
 - `whoami`
-- `usermod -aG wheel user`
 - `visudo`
 - `pkexec`
+    `pkexec visudo`
 - `vipw`
+    `vipw -s`
 - `useradd`
+    `useradd -m -u 1201 -G sales,ops linda`
+    `useradd caroline -s /sbin/nologin`
 - `userdel`
+    `userdel -r`
 - `usermod`
+    `usermod -aG wheel user`
+    `usermiod -p`
 - `chage`
+    `chage -l`
+    `chage -E 2025-12-31 bob`
 - `passwd`
+    `passwd -n 30 -w 3 -x 90 linda`
 - `vigr`
+    `vigr -s`
 - `groupadd`
 - `groupdel`
 - `groupmod`
@@ -325,29 +336,37 @@ man 7 file-hierarchy
 - `groupmems`
 - `groups`
 
-# files
-- /etc/sudoers.d/amy
+### Files
+- /etc/sudoers 
+    `ALL=/usr/bin/useradd, /usr/bin/passwd`
+    `Defaults timestamp_timeout=240`
+    `linda ALL=/usr/bin/useradd, /usr/bin/passwd, ! /usr/bin/passwd root`
+- /etc/sudoers.d/user
 - /etc/passwd
 - /etc/shadow
 - /etc/skel
 - /etc/login.defs
+     `CREATE_HOME yes`
+     `PASS_MAX_DAYS, PASS_MIN_DAYS, and PASS_WARN_AGE`
+     `ENV_PATH`
 - /etc/default/useradd
 - /etc/profile
+    `export EDITOR=/usr/bin/vim`
 - /etc/bashrc
+    `export EDITOR=/usr/bin/vim`
 - ~/.profile
+    `export EDITOR=/usr/bin/vim`
 - ~/.bashrc
+    `export EDITOR=/usr/bin/vim`
 - /etc/group
 
-# file configurations
-- `ALL=/usr/bin/useradd, /usr/bin/passwd`
-- `Defaults timestamp_timeout=240`
-- `inda ALL=/usr/bin/useradd, /usr/bin/passwd, ! /usr/bin/passwd root`
-- `export EDITOR=/usr/bin/vim`
-- `CREATE_HOME yes`
-- `PASS_MAX_DAYS, PASS_MIN_DAYS, and PASS_WARN_AGE`
-- `ENV_PATH`
+### Man Pages
+- `man 5 passwd`
+- `man 5 shadow`
+- `man 5 group`
+- `man 5 gshadow`
 
-# man pages
+### Exam Tips
 
 ------------------------------------------------------------------
 
@@ -356,23 +375,53 @@ man 7 file-hierarchy
 # theory
 - ownership
 - permissions
+- inheritance
 - read, write, execute
 - SUID, GUID, sticky bit
 - Default Permissions
+- Attributes
 - User-extended Attributes
 
 # commands/variables
+- `find`
+    `find / -user linda`
+    `find / -group users`
 - `ls`
 - `find`
 - `chown`
+    `chown who what`
+    `chown linda files`
+    `chown -R linda /files`
+    `chown lisa myfile`
+    `chown lisa:sales myfile`
+    `chown :sales myfile`
 - `newgrp`
 - `groups`
 - `exit`
 - `chmod`
+    `chmod 755 /somefile`
+    `chmod +x somefile`
+    `chmod g+w,o-r somefile`
+    `chmod -R a+x files`
+    `chmod -R a+X files`
+    `chmod u+s`
+    `chmod g+s`
+    `chmod +t`
 - `umask`
+    `umask 022`
 - `chattr`
+    `chattr -A somefile`
+    `chattr -a somefile`
+    `chattr -c somefile`
+    `chattr -D somefile`
+    `chattr -d somefile`
+    `chattr -I somefile`
+    `chattr -i somefile`
+    `chattr -s somefile`
+    `chattr -u somefile`
 
 # files
+- /etc/profile.d/umask.sh
 
 # file configurations
 
@@ -380,9 +429,9 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter 8 - Configuring Networking
+# Chapter 8 - Configuring Networking
 
-# theory
+### theory
 - Internet Protocol
 - IPv4, IPv6
 - classful Networking
@@ -395,36 +444,41 @@ man 7 file-hierarchy
 - DNS domaoin name system
 - FQDN fully qualified domain name
 
-# commands/variables
-- `ip addr, ip route, ip link`
+### commands/variables
+- `ip`
+    `ip address show`
+    `ip route`
+    `ip route show`
+    `ip link show`
+    `ip link set dev ens33 up`
 - `ss`
+    `ss -lt`
 - `systemctl status NetworkManager`
 - `nmtui`
 - `nmcli`
-- `nmcli general permissions`
-- `nmcli device status `
-- `nmcli con add con-name dhcp type ethernet ifname ens33 ipv4.method auto`
-- `nmcli con add con-name static ifname ens33 autoconnect no type ethernet ip4 10.0.0.10/24 gw4 10.0.0.1 ipv4.method manual`
-- `nmcli connection show`
-- `nmcli con mod static connection.autoconnect no`
-- `nmcli con mod static ipv4.dns 10.0.0.10`
-- `nmcli con mod static +ipv4.dns 8.8.8.8`
-- `nmcli connection modify`
-- `nmcli con mod static ipv4.addresses 10.0.0.100/24`
-- `nmcli con mod static +ipv4.addresses 10.20.30.40/16`
-- `nmcli connection up static`
-- `hostnamectl set-hostname`
-- `hostnamectl status`
-- `nmcli con mod <connection-id> [+]ipv4.dns <ip-of-dns>`
-- `nmcli con mod <con-name> ipv4.ignore-auto-dns yes`
+     `nmcli general permissions`
+     `nmcli device status `
+     `nmcli connection add con-name dhcp type ethernet ifname ens33 ipv4.method auto`
+     `nmcli connnection add con-name static ifname ens33 autoconnect no type ethernet ip4 10.0.0.10/24 gw4 10.0.0.1 ipv4.method manual`
+     `nmcli connection show`
+     `nmcli con mod static connection.autoconnect no`
+     `nmcli con mod static ipv4.dns 10.0.0.10`
+     `nmcli con mod static +ipv4.dns 8.8.8.8`
+     `nmcli connection modify`
+     `nmcli con mod static ipv4.addresses 10.0.0.100/24`
+     `nmcli con mod static +ipv4.addresses 10.20.30.40/16`
+     `nmcli connection up static`
+     `nmcli con mod <connection-id> [+]ipv4.dns <ip-of-dns>`
+     `nmcli con mod <con-name> ipv4.ignore-auto-dns yes`
+- `hostnamectl`
+     `hostnamectl set-hostname`
+     `hostnamectl status`
 
-# files
+### files / file configurations
 - /etc/hosts
 - /etc/resolv.conf
 
-# file configuraiton 
-
-# man pages
+### man pages
 - man 5 nm-settings
 - man nmcli-examples
 - man 5 hosts
@@ -435,9 +489,9 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter 9 - Managing Software
+# Chapter 9 - Managing Software
 
-# theory
+### theory
 - packages
 - Red Hat Package Manager (RPM)
 - repositories
@@ -447,47 +501,84 @@ man 7 file-hierarchy
 - Package Group 
 - RPM
 - module, stream, profile
+- dependency hell
 - RPM filenames
 
-# commands/variables
+### commands/variables
 - `subscription-manager`
-- `subscription-manager register`
-- `subscription-manager list --available`
-- `subscription-manager attach --auto`
-- `subscription-manager list --consumed`
-- `subscription-manager unregister`
+    `subscription-manager register`
+    `subscription-manager list --available`
+    `subscription-manager attach --auto`
+    `subscription-manager list --consumed`
+    `subscription-manager unregister`
 - `createrepo`
 - `dnf`
+    `dnf config-manager`
+    `dnf config-manager --add-repo=http://reposerver.example.com/`
+    `dnf config-manager --add-repo=file:///repo/BaseOS`
+    `dnf repolist`
+    `dnf search`
+    `dnf search all`
+    `dnf [what]provides */name`
+    `dnf info`
+    `dnf install`
+    `dnf remove`
+    `dnf list[all | installed]`
+    `dnf group list`
+    `dnf group installed`
+    `dnf update`
+    `dnf clean all`
+    `dnf whatprovides`
+    `dnf whatprovides */Containerfile`
+    `dnf list kernel`
+    `dnf update kernel`
+    `dnf group info "Container Management"`
+    `dnf history`
+    `dnf module list`
+    `dnf module list maven`
+    `dnf module info php:8.1`
 - `rpm`
-- `repoquery` 
+    `rpm -Uvh packagename`
+    `rpm -qa`
+    `rpm -qi nmap`
+    `rpm -ql nmap`
+    `rpm -qd nmap`
+    `rpm -qc nmap`
+    `rpm -qf`
+    `rpm -qf /bin/ls`
+    `rpm -qp --scripts httpd-2.4.6-19.el7.centos.x86_64.rpm`
+    `rpm -qp`
+- `dnf-utils`
+- `repoquery`
+- `yumdownloader`
+- `yum-utils`
 - `dnf-utils`
 
-# files
+### files / file configurations
 - /etc/pki
 - /etc/yum.repos.d.
+    `[label]`
+    `name= `
+    `baseurl= `
+    `gpgcheck= `
+    `gpgkey= `
 
-# file configurations
-- `[label]`
-- `name= `
-- `baseurl= `
-- `gpgcheck= `
-- `gpgkey= `
+### man pages
 
-# man pages
-
-# exam tips
+### exam tips
 
 ------------------------------------------------------------------
 
-### Chapter 10 - Managing Processese
+# Chapter 10 - Managing Processese
 
-# theory
+### theory
 - Shell jobs
 - daemons
 - Kernel threads
 - foregrond process
 - background process
 - Process Identification Number
+- Process priority
 - cgroups: system, user, machine
 - slices
 - CPU weight
@@ -497,7 +588,7 @@ man 7 file-hierarchy
 - tuned daemon
 - profiles
 
-# Commands/Variables
+### Commands/Variables
 - `fg`
 - `jobs`
 - `bg`
@@ -506,124 +597,152 @@ man 7 file-hierarchy
 - `Ctrl-D`
 - `Ctrl-Z`
 - `ps`
+    `ps aux | head`
+    `ps -ef`
+    `ps fax`
+    `ps aux | grep dd`
+- `pgrep`
+    `pgrep dd`
 - `nice`
+    `nice -n 5 dd if=/dev/zero of=/dev/null &`
 - `renice`
+    `renice -n 10 -p 1234`
 - `kill`
 - `pkill`
 - `killall`
 - `top`
+    `R, S, D, T, Z`
+    `K then PID`
+    `r then PID`
 - `uptime`
 - `lscpu`
 - `tuned-adm`
+    `tuned-adm profile profile-name` - `systemctl`
+    `systemctl enable --now tuned`
 
-# files
+### files / file configurations
 
-# file configurations
-
-# man pages
+### man pages
 - man 7 signal
 
-# Exam Tips
+### Exam Tips
 - Do not set process priority to –20; it risks blocking other processes from getting served.
 
 ------------------------------------------------------------------
 
-### Chapter 11 - Working with Systemd
+# Chapter 11 - Working with Systemd
 
-# theory
+### theory
 - Systemd
+- service unit file
 - unit
 - mount
 - socket
 - target
-- Managing dependencies
+- Managing dependencies:  Requires, Requisite, After, Before
 
-# commands/variables
+### commands/variables
 - `systemctl`
-- `systemctl -t service`
-- `systemctl list-units -t service`
-- `systemctl list-units -t service --all`
-- `systemctl --failed -t service`
-- `systemctl status -l your.service`
-- `systemctl list-dependencies`
-- `systemctl show`
-- `systemctl show sshd`
-- `systemctl edit sshd.service`
+    `systemctl cat service`
+    `systemctl -t service`
+    `systemctl list-units -t service`
+    `systemctl list-units -t service --all`
+    `systemctl --failed -t service`
+    `systemctl status -l your.service`
+    `systemctl list-dependencies`
+    `systemctl show`
+    `systemctl show sshd`
+    `systemctl edit sshd.service`
 
-# files
+### files / file configurations
 - /usr/lib/systemd/system
 - /etc/systemd/system
 - /run/systemd/system
+- environmetn files: `export SYSTEMD_EDITOR="/bin/vim"`
 
-# file configurations
-- Requires, Requisite, After, Before
-- `export SYSTEMD_EDITOR="/bin/vim"`
+### man pages
 
-# man pages
-
-# Exam tips
+### Exam tips
 
 ------------------------------------------------------------------
 
-### Chapter 12 - Schedualing Tasks
+# Chapter 12 - Schedualing Tasks
 
-# thoery 
+### thoery 
 - systemd timers
 - cron daemon
 - systemd timer
 - crond service
 
-# commands/variables
+### commands/variables
 - `systemctl cat logrotate.timer`
-- `systemctl status crond`
+    `systemctl status crond`
 - `crontab`
-- `crontab -e`
-- `crontab -e -u username`
+    `crontab -e`
+    `crontab -e -u username`
+    `* 11 * * *`
+    `0 11 * * 1-5`
+    `0 7-18 * * 1-5`
+    `0 */2 2 12 5`
+    `crontab -l`
 - `at`
-- `at 14:00`
-- `at teatime`
-- `at noon`
+    `at 14:00`
+    `at teatime`
+    `at noon`
 - `atq`
 - `atrm`
 - `atd`
 - `batch`
 
-
-# files
+### files /file configurations
+- /etc/systemd/system
+    `OnActiveSec`
+    `OnBootSec`
+    `OnStartupSec`
+    `OnUnitActiveSec`
+    `OnCalender`
+- /usr/lib/systemd/system
+- ~/.config/systemd/user
 - /etc/crontab
 - /etc/cron.d
 - /etc/cron.hourly, cron.daily, cron.weekly, cron.monthly
+- /etc/cron.all
+- /etc/cron.deny
 - /etc/anacron
 
-# file configuraitons
-
-# man pages
+### man pages
 - `man 5 systemd.timer`
 - `man 7 systemd.time`
 - `man 5 crontab`
 
-# Exam timps
+### Exam timps
 - Even if systemd timers are now the default solution for runningrecurring tasks, cron is still available. Make sure you master both for purposes of preparing for the RHCSA exam
 
 ------------------------------------------------------------------
 
-### Chapter 13 - Configuring Logging
+# Chapter 13 - Configuring Logging
 
-# theory
+### theory
 - systemd-journald
 - Direct write
 - rsysslogd
 - logrotation
 - facility, priority, destination
 
-# commands/variables
-- `tail -f`
+### commands/variables
+- `systemctl`
+    `systemctl staus sshd -l`
+- `tail`
+    `tail -f`
+    `tail -10 /var/log/messages`
 - `logger`
-- `logger -p kern.err hello`
+    `logger -p kern.err hello`
 - `journalctl`
-- `journalctl -u sshd`
+    `journalctl -u sshd`
+    `journalctl -f`
+    `journalctl -o verbose`
 
-# files
+### files / file configurations
 - /var/log
 - /var/log/messages
 - /var/log/dmesg
@@ -633,89 +752,107 @@ man 7 file-hierarchy
 - /var/log/maillog
 - /var/log/httpd/
 - /etc/systemd/journald.conf
+    `Storage=auto`
+    `Storage=volatile`
+    `Storage=persistent`
+    `Storage=none`
 - /etc/rsyslog.conf 
+    `#### MODULES ####`
+    `#### GLOBAL DIRECTIVES ####`
+    `#### RULES ####`
 - /etc/logrotate.conf
 
-# file configurations
-- `Storage=auto`
-- `Storage=volatile`
-- `Storage=persistent`
-- `Storage=none`
 
-# Man pages
+### Man pages
 - `man 5 rsyslog.conf`
 - `man logrotate`
 
-# Exam Tips
+### Exam Tips
 
 ------------------------------------------------------------------
 
-### Chapter 14 - Managing Storage
+# Chapter 14 - Managing Storage
 
-# theory
+### theory
 - partitions
 - MBR Master Boot Record
+- Primary partitions
+- Extended partitions
+- logical partitions
 - BIOS Basic Input Output System
 - GPT GUID Partition Table
 - UEFI Unidfied Extensible Firmware Interface
 - Storage Measurement Units
 - MBR vs GPT partition limitations
+- Common Disk Device Types:
+    /dev/sda
+    /dev/nvme0n1
+    /dev/hda
+    /dev/vda
+    /dev/xvda
 - File Systems
+    XFS
+    Ext4
+    Ext3
+    Ext2
+    BtrFS
+    NFTS
+    VFAT
 - Swap Partitions
 - Mounting File Systems
 - UUID univerally unique identifier
 - Creating systemd mount file 
 
-# commands/variables
+### commands/variables
 - `fdisk`
 - `gdisk`
 - `parted`
 - `mkfs`
-- `mkfs.xfs /dev/sdb1`
-- `tune2fs -l /dev/sdd1`
-- ` tune2fs -o`
-- `tune2fs -o acl,user_xattr`
-- `tune2fs -o ^acl,user_xattr`
-- `tune2fs -O`
-- `tune2fs -L`
+    `mkfs.xfs /dev/sdb1`
+- `tune2fs`
+    `tune2fs -l /dev/sdd1`
+    `tune2fs -o`
+    `tune2fs -o acl,user_xattr`
+    `tune2fs -o ^acl,user_xattr`
+    `tune2fs -O`
+    `tune2fs -L`
 - `e2label`
 - `xfs_admin`
-- `xfs_admin -L mylabel`
+    `xfs_admin -L mylabel`
 - `swap`
 - `mkswap`
-- `mkswap /dev/sdb6`
+    `mkswap /dev/sdb6`
 - `free -m`
 - `swapon`
-- `swapon /dev/sdb6`
-- ` dd if=/dev/zero of=/swapfile bs=1M count=100`
-- `mkswap /swapfile`
-- `swapon /swapfile`
+    `swapon /dev/sdb6`
+- `dd if=/dev/zero of=/swapfile bs=1M count=100`
+- `mkswap`
+    `mkswap /swapfile`
+- `swapon`
+    `swapon /swapfile`
 - `mount`
+    `mount /dev/sdb5 /mnt`
+    `mount LABEL=mylabel /mnt`
+    `mount -a`
 - `umount`
-- `mount /dev/sdb5 /mnt`
 - `blkid`
-- `mount LABEL=mylabel /mnt`
 - `findmnt --verify`
-- `mount -a`
 - `/run/systemd/generator/repo.mount`
 
-
-# files
+### files / file configurations
 - /etc/fstab
+    `auto/ noauto, acl, user_xattr, ro, atime/noatime, noexec /exec`
 
-# file configuration
-- auto/ noauto, acl, user_xattr, ro, atime/noatime, noexec /exec
-
-# Man pages
+### Man pages
 - `man 5 fs`
 
-# Examp Tips
+### Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter 15 - Managing Adavanded Storage
+# Chapter 15 - Managing Adavanded Storage
 
-# theory
+### theory
 - LVM logical volume manager
 - Snapshot
 - Physcial Volumes > Volume Group > Logical Volume
@@ -731,18 +868,21 @@ man 7 file-hierarchy
 - Programmtica API 
 - Monitoring and Repair
 
-# commands/variables
+### commands/variables
 - `pvcreate`
+    `pvcreate /dev/sdd1`
 - `set n lvm on`
-- `pvcreate /dev/sdd1`
-- `pvdisplay /dev/sdd1`
+- `pvdisplay`
+    `pvdisplay /dev/sdd1`
 - `lsblk`
-- `vgcreate vgdata /dev/sdd1`
-- `vgcreate vgdata /dev/sdc`
+- `vgcreate`    
+    `vgcreate vgdata /dev/sdd1`
+    `vgcreate vgdata /dev/sdc`
+    `vgcreate -s`
 - `pvs`
-- `vgcreate -s`
 - `vgdisplay`
-- `lvcreate -n lvdata -l 100 vgdata`
+- `lvcreate`
+    `lvcreate -n lvdata -l 100 vgdata`
 - `mkfs`
 - `ls -l /dev/mapper/vgdata-lvdata /dev/vgdata/lvdata`
 - `vgextend`
@@ -750,41 +890,40 @@ man 7 file-hierarchy
 - `vgs`
 - `lvextend`
 - `lvresize`
-- `lvresize -L +1G -r /dev/vgdata/lvdata`
-- `lvresize -r -l 75%VG /dev/vgdata/lvdata` 
-- `lvresize -r -l +75%VG /dev/vgdata/lvdata`
-- `lvresize -r -l +75%FREE /dev/vgdata/lvdata`
-- `lvresize -r -l 75%FREE /dev/vgdata/lvdata`
+    `lvresize -L +1G -r /dev/vgdata/lvdata`
+    `lvresize -r -l 75%VG /dev/vgdata/lvdata` 
+    `lvresize -r -l +75%VG /dev/vgdata/lvdata`
+    `lvresize -r -l +75%FREE /dev/vgdata/lvdata`
+    `lvresize -r -l 75%FREE /dev/vgdata/lvdata`
 - `pvremove`
 - `vgreduce`
 - `stratis-cli`
 - `stratisd`
 - `systemctl enable --now stratisd`
-- `stratis pool create`
-- `stratis pool create mypool /dev/sde`
-- `stratis pool add-data pool-name blockdevname`
-- `stratis pool add-data mypool /dev/sde`
-- `stratis fs create pool-name fsname`
-- `stratis fs list`
+- `stratis`
+    `stratis pool create`
+    `stratis pool create mypool /dev/sde`
+    `stratis pool add-data pool-name blockdevname`
+    `stratis pool add-data mypool /dev/sde`
+    `stratis fs create pool-name fsname`
+    `stratis fs list`
+    `stratis pool add-data`
+    `stratis blockdev`
+    `stratis pool`
+    `stratis filesystem`
 - `x-systemd.requires=stratisd.service`
-- `stratis pool add-data`
-- `stratis blockdev`
-- `stratis pool`
-- `stratis filesystem`
 
-# files
+### files / file configurations
 
-# file configuration
+### Man pages
 
-# Man pages
-
-# Examp Tips
+### Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter 16 - Basic Kernel Management
+# Chapter 16 - Basic Kernel Management
 
-# theory
+### theory
 - kernel
 - I/O instructions
 - Threads
@@ -795,35 +934,49 @@ man 7 file-hierarchy
 - modules
 - systemd-udevd process
 
-# commands/variables
+### commands/variables
+- `ps`
+    `ps aux | head -n 20`
 - `dmesg`
-- `journalctl -k`
+- journalctl`
+    `journalctl -k`
 - `uname`
-- `hostnamectl status`
+    `uname -a`
+    `uname -r`
+- `hostnamectl`
+    `hostnamectl status`
 - `udevadm`
+    `udevadm monitor`
 - `lsmod`
+    `lsmod | head`
 - `modinfo`
+    `modinfo e1000`
 - `modprobe`
-- `modprobe -r`
+    `modprobe -r`
+- `insmod`
+- `rmmod`
 - `lspci`
-- `lspci -k`
-- `dnf install kernel`
-- `dnf upgrade kernel`
+    `lspci -k`
+- `dnf`
+    `dnf install kernel`
+    `dnf upgrade kernel`
 
-# files
+### files / file configurations
 - /proc
+- /usr/lib/udev/rules.d
+    `systemd-udevd`
+- /etc/udev/rules.d
+    `systemd-udevd`
 
-# file configuration
+### Man pages
 
-# Man pages
-
-# Examp Tips
+### Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter 17 - Managing and Understanding the Boot Procedure
+# Chapter 17 - Managing and Understanding the Boot Procedure
 
-# theory
+### theory
 - Systemd
 - emergency.target
 - rescue.target
@@ -837,40 +990,42 @@ man 7 file-hierarchy
 - kernel
 - initramfs
 
-# commands/variables
-- `systemctl enable`
-- `systemctl disable`
-- `systemctl isolote`
-- `systemctl -t target --all`
-- `systemctl get-default`
-- `dnf group list`
-- `dnf group install "server with gui"`
+### commands/variables
+- `systemctl`
+    `systemctl cat multi-user.target`
+    `systemctl enable`
+    `systemctl disable`
+    `systemctl isolote`
+    `systemctl --type=target --all`
+    `systemctl -t target --all`
+    `systemctl get-default`
+- `dnf`
+    `dnf group list`
+    `dnf group install "server with gui"`
 - `grub2-mkconfig`
+    `grub2-mkconfig -o /boot/grub2/grub.cfg`
+    `grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg`
 - `rhgb`
 - `quite`
-- `grub2-mkconfig -o /boot/grub2/grub.cfg`
-- `grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg`
 
-# files
+### files / file configurations
 - /etc/default/grub 
+    `GRUB_CMDLINE_LINUX`
+    `GRUB_TIMEOUT`
 - /etc/grub.d.
 - /boot/grub2/grub.cfg
 - /boot/efi/EFI/redhat/grub.cfg 
 
-# file configuration
-- `GRUB_CMDLINE_LINUX`
-- `GRUB_TIMEOUT`
-
-# Man pages
+### Man pages
 - `man 7 booparam`
 
-# Examp Tips
+### Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter 18 - Essential Troubleshooting Skills
+# Chapter 18 - Essential Troubleshooting Skills
 
-# theory
+### theory
 - Boot procedure:
     1. Performating POST
     2. Selecting the bootable device
@@ -898,7 +1053,7 @@ man 7 file-hierarchy
     6. exec /usr/lib/systemd/systemd to replace /bin/bash (which is the current PID 1) with Systemd.
     7. Verify that you can log in as the root user after rebooting.
 
-# commands/variables
+### commands/variables
 - `rd.break`
 - `init=/bin/sh or init=/bin/bash`
 - `systemd.unit=emergency.target`
@@ -914,15 +1069,13 @@ man 7 file-hierarchy
 - `journalctl -xb`
 - `mount -o remount,rw /`
 
-# files
+### files / file configurations
 - /usr/lib/dracut/dracut.conf.d/*.conf c
 - /etc/dracut.conf.d 
 
-# file configuration
+### Man pages
 
-# Man pages
-
-# Examp Tips
+### Examp Tips
 
 ------------------------------------------------------------------
 
@@ -936,7 +1089,6 @@ man 7 file-hierarchy
 - variable
 - conditional loops
 - case statement
-
 
 # commands/variables
 - `bash`
