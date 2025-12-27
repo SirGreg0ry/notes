@@ -1026,32 +1026,16 @@ man 7 file-hierarchy
 # Chapter 18 - Essential Troubleshooting Skills
 
 ### theory
-- Boot procedure:
-    1. Performating POST
-    2. Selecting the bootable device
-    3. Loading the boot order
-    4. Loading the Kernel
-    5. Starting /sbin/init
-    6. Processing initrd.target
-    7. Switching to the root file system
-    8. Running the default target
+- POST 
+- Bootable Device
+- UEFI
+- GRUB 2
+- initramfs
+- systemd-udevd
+- initd.target 
+- Boot Prompt
+- rd.break
 
-- GRUB 2 menu
-
-- Using Rescue Disk
-    1. Install Red Hat Enterprise Linux 9 in Basic Graphics Mode
-    7. Rescue a Red Hat Enterprise Linux System:
-    3. Run a Memory Test
-    4. Boot from Local Drive
-
-- Resetting Root Password
-    1. On system boot, press e when the GRUB 2 boot menu is shown
-    2. Enter init=/bin/bash as a boot argument to the line that loads the kernel and press Ctrl-X to boot with this option
-    3. Once a root shell is opened, type mount -o remount,rw / to get read/write access to the root filesystem.
-    4. Now you can enter passwd and set the new password for the user root
-    5. touch /.autorelabel to create the autorelabel file in the root directory
-    6. exec /usr/lib/systemd/systemd to replace /bin/bash (which is the current PID 1) with Systemd.
-    7. Verify that you can log in as the root user after rebooting.
 
 ### commands/variables
 - `rd.break`
@@ -1060,16 +1044,17 @@ man 7 file-hierarchy
 - `systemd.unit=rescue.target`
 - `chroot`
 - `grub2-install`
-- `grub2-install /dev/sda`
+    `grub2-install /dev/sda`
 - `dracut`
-- `grub2-install`
+    `dracut --force`
 - `chroot /mnt/sysimage`
-- `dracut --force`
 - `fsck`
 - `journalctl -xb`
 - `mount -o remount,rw /`
 
 ### files / file configurations
+- /sbin/init
+- /sysroot 
 - /usr/lib/dracut/dracut.conf.d/*.conf c
 - /etc/dracut.conf.d 
 
@@ -1079,9 +1064,9 @@ man 7 file-hierarchy
 
 ------------------------------------------------------------------
 
-### Chapter 19 - An Introduction to Automation with Bash Shell Scripting
+# Chapter 19 - An Introduction to Automation with Bash Shell Scripting
 
-# theory
+### theory
 - shebang
 - parent shell
 - subshell
@@ -1090,7 +1075,7 @@ man 7 file-hierarchy
 - conditional loops
 - case statement
 
-# commands/variables
+### commands/variables
 - `bash`
 - `TODAY=$(date +%d-%m-%y)`
 - `if … then … else`
@@ -1101,20 +1086,18 @@ man 7 file-hierarchy
 - ` || &&`
 - `bash -x`
 
-# files
+### files / file configurations
 
-# file configuration
-
-# Man pages
+### Man pages
 - `man bash`
 
-# Examp Tips
+### Examp Tips
 
 ------------------------------------------------------------------
 
-### Chapter 20  - Configuring SSH
+# Chapter 20  - Configuring SSH
 
-# theory
+### theory
 - Dictionary attacks
 - Disable root login 
 - Disable password login
@@ -1127,108 +1110,101 @@ man 7 file-hierarchy
 - SELinux and ssh_port_t when changing SSH port
 - Difference between TCPKeepAlive and ClientAlive* keepalives
 
-# commands/variables
+### commands/variables
 - `ssh-keygen`
 - `ssh-copy-id`
 - `ssh-agent`
 - `ssh-add`
-- `semanage port`
-- `semanage port -l`
-- `semanage port -a -t ssh_port_t -p tcp 2022`
-- `semanage port -m`
-- `firewall-cmd --add-service=ssh`
-- `firewall-cmd --add-port=2022/tcp`
+- `semanage`
+    `semanage port`
+    `semanage port -l`
+    `semanage port -a -t ssh_port_t -p tcp 2022`
+    `semanage port -m`
+- `firewall-cmd`
+    `firewall-cmd --add-service=ssh`
+    `firewall-cmd --add-port=2022/tcp`
 
-# files
+### files / file configurations
 - /etc/ssh/sshd_config 
+    `port`
+    `PasswordAuthenticaion`
+    `PublicAuthentication`
+    `AuthorizedKeysFile`
+    `AllowUsers`
+    `Allowgroups`
+    `PermitRootLogin`
+    `LoginGraceTime`
+    `MaxAuthTries`
+    `UseDNS`
+    `MaxSessions`
+    `TCPKeepAlive`
+    `ClientAliveInterval`
+    `ClientAliveCountMax`
 - ~/.ssh/authorized-keys
 - ~/.ssh/known_hosts
+- `/.ssh.config
+    `ServerAliveInterval` 
+    `ServerAliveCountMax`
 
-# file configurationo
-- `port`
-- `PasswordAuthenticaion`
-- `PublicAuthentication`
-- `AuthorizedKeysFile`
-- `AllowUsers`
-- `Allowgroups`
-- `PermitRootLogin`
-- `LoginGraceTime`
-- `MaxAuthTries`
-- `UseDNS`
-- `MaxSessions`
-- `TCPKeepAlive`
-- `ClientAliveInterval`
-- `ClientAliveCountMax`
-- `ServerAliveInterval` 
-- `ServerAliveCountMax`
-
-# Man pages
+### Man pages
 - ssh(1)
 - sshd(8)
 - ssh_config(5)
 - sshd_config(5)
 - semanage-port(8)
 
-# Examp Tips
+### Examp Tips
 - Practice: change SSH port + update SELinux + update firewalld + test login.
 - Practice: configure key-based auth, disable password auth, verify login still works.
 - Avoid locking yourself out: keep a second root/console session open while changing SSH.
 
 ------------------------------------------------------------------
 
-### Chapter 21 - Managing Apache HTTP Services
+# Chapter 21 - Managing Apache HTTP Services
 
-# theory
+### theory
 - chroot environment
+- virtual host 
 
-- Apache Virtual Hosts
-    1. The client opens a browser and enters the website URL.
-    2. DNS resolves the URL to the Apache server’s IP.
-    3. Apache receives the request and inspects the HTTP headers to see which virtual host it targets.
-    4. Apache loads that virtual host’s configuration to determine its document root.
-    5. Apache serves the requested file from that document root.
-
-- Virtual hosting recemndations
-    1. Virtual-hosted Apache servers should handle every site through a virtual host.
-    2. Create a _default_:80 virtual host as a catch-all so unmatched requests do not randomly hit the first configured vhost.
-    3. Name-based virtual hosts share one IP but use different hostnames and are the most common setup.
-    4. IP-based virtual hosts each use a unique IP and are typically used when a site must have its own address or for some TLS setups.
-
-# commands/variables
-- `dnf group install "Basic Web Server"`
-- `dnf install curl`
-- `systemctl status httpd mod_ssl`
-- `systemctl enable --now httpd`
-- `systemctl restart httpd`, 
-- `systemctl is-enabled httpd`
+### commands/variables
+- `dnf`
+    `dnf group install "Basic Web Server"`
+    `dnf install curl`
+- `systemctl`
+    `systemctl status httpd mod_ssl`
+    `systemctl enable --now httpd`
+    `systemctl restart httpd`, 
+    `systemctl is-enabled httpd`
 - `httpd -t`
 - `apachectl configtest`
 
-# files
+### files / file configurations
 - /etc/httpd 
 - /etc/httpd/conf/httpd.conf
+    `ServerRoot`
+    `Listen`
+    `DocumentRoot`
+    `<Directory>`, `AllowOverride`
+    `ErrorLog`, `CustomLog`
+    `LoadModule` 
 - /etc/httpd/conf.d 
+    `DocumentRoot`
+    `ServerName`, `ServerAlias`
+    `<Directory>`, `AllowOverride`
+    `ErrorLog`, `CustomLog`
 - /etc/httpd/conf.modules.d
+    `LoadModule` 
 - /etc/httpd/conf.d/ssl.conf
+    `SSLEngine on`
+    `SSLCertificateFile`
+    `SSLCertificateKeyFile`
 
-# file configuration
-- `DocumentRoot`
-- `ServerRoot`
-- `Listen`
-- `ServerName`, `ServerAlias`
-- `<Directory>`, `AllowOverride`
-- `ErrorLog`, `CustomLog`
-- `LoadModule` 
-- `SSLEngine on`
-- `SSLCertificateFile`
-- `SSLCertificateKeyFile`
-
-# Man pages
+### Man pages
 - httpd(8)
 - apachectl(8)
 - httpd.conf(5)
 
-# Examp Tips
+### Examp Tips
 - Always run httpd -t before restarting.​
 - Know default doc root: /var/www/html.​
 - Know default doc root: /var/www/html.​
@@ -1284,7 +1260,7 @@ man 7 file-hierarchy
 - `ps -eZ`
 - `id -Z`
 
-### files
+### files / file configurations
 - /etc/default/grub
     `selinux=0`
     `enforcing=0`
