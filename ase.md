@@ -11,7 +11,8 @@
 - Always choose the **most accurate tool**, not the fastest one.
 
 # Theory
-- **BTCD**: (6degress-12degrees) Before Top Dead Center for spark plug to ignite fuel for comporesion
+- **PCM (Power Control Module):** Engine control computer that manages fuel injection, ignition timing, emissions systems, and sensor inputs based on live data and pre-programmed maps
+- **BTCD**: (6degrees-12degrees) Before Top Dead Center for spark plug to ignite fuel for compression
 - **DTC:** Diagnostic trouble code
 - **GDI:** Gasoline Direct Injection
 - **TDC (Top Dead Center):** The point at which the piston is at the highest position in the cylinder. Used for timing and measurements.  
@@ -20,38 +21,43 @@
 - **Power Stroke:** The stroke where the spark ignites the compressed mixture, forcing the piston downward.  
 - **Intake Stroke:** The piston moves down with the intake valve open, drawing the air-fuel mixture into the cylinder.  
 - **Exhaust Stroke:** The piston moves up with the exhaust valve open, pushing burnt gases out of the cylinder.  
-- **Firing Order:** The sequence in which each cylinder receives spark and fires, critical for smooth engine operation.  
+- **Firing Order:** The sequence in which each cylinder receives spark and fires, critical for smooth engine operation, vibration management, torque management for crankshaft.  
 - **Stroke:** The distance the piston travels from TDC to BDC.  
 - **Bore:** The diameter of the cylinder.  
 - **Deck Height / Deck Clearance:** The distance from the piston crown to the deck surface when the piston is at TDC.  
-- **Compression Ratio:** The ratio of cylinder volume at BDC to cylinder volume at TDC.  
-- **Valve Overlap:** The period when both intake and exhaust valves are slightly open at the same time, allowing better cylinder scavenging.  
+- **Compression Ratio:** CR = VBCD/BTDC
+- **Valve Overlap:** The period when both intake and exhaust valves are slightly open at the same time at TDC between the exhaust and intake cycles, allowing better cylinder scavenging.  
 - **Dead Center (DC):** Either TDC or BDC; reference points for engine timing and measurement.  
 - **Piston Stroke Direction:** Up = compression/exhaust, Down = intake/power.  
 - **Intake/Exhaust Valve Timing:** Refers to when the valves open and close relative to piston position and crankshaft rotation.  
 - **Frictional Losses:** Resistance from moving parts such as piston skirts, bearings, and rings, affecting engine efficiency.  
-- **Volumetric Efficiency:** The measure of how effectively the engine fills its cylinders with air-fuel mixture.  
+- **Volumetric Efficiency:** The measure of how effectively the engine fills its cylinders with air-fuel mixture.  VE = actual air mass or volume / Theoretical Displacement Volume * 100%
 - **Crank Angle:** The rotation angle of the crankshaft, often used to define piston position relative to TDC/BDC.  
 - **Camshaft Lobe:** The raised portion of a camshaft that pushes the valve open.  
 - **Compression Pressure:** Pressure in the cylinder at the end of the compression stroke; used in diagnostics.  
-- **Leak-Down:** A test that measures percentage of leakage in a cylinder, indicating worn rings, valves, or head gasket issues.  
+- **Leak-Down:** A test that measures percentage of leakage in a cylinder, indicating worn rings, valves, or head gasket issues Near TDC at compression stroke simulation.
 - **Firing / Ignition Timing:** The point in crankshaft rotation when the spark plug fires relative to TDC.  
 - **Boots:** Pressure above atmospheric
+- **Drive By Wire:** Electronic throttle control system replacing mechanical throttle cable with accelerator pedal position sensor, throttle position sensor, and electric throttle body motor
 
 # Parts and Specifications
 ## **Intake System:**
-  ### Parts
-  - **Air Filter(Element):**
-  - **Air Filter Housing/Box:**
-  - **Air Intake Tube/Duct:**
-  - **Mass Airflow (MAF) Sensor:**
-  - **Throttle Body:**
-  - **Throttle Position Sensor:**
-  - **Intake Manifold (Plenum/Runners):**
-  - **Intake Resonator:**
-  - **Idle Air Control (IAC):**
-  - **PCV Valve/Hoses:**
-  - **Vacuum Hoses/Lines:**
+### Parts
+- **Air Filter(Element):** Paper or synthetic filter media that removes dirt/dust from incoming air before MAF sensor
+- **Air Filter Housing/Box:** Plastic box that holds air filter and seals intake from unmetered air entry
+- **Air Intake Tube/Duct:** Flexible tube connecting air filter box to throttle body, can crack causing lean condition
+- **Mass Airflow (MAF) Sensor:** Measures air mass entering engine for fuel calculations, hot wire/film type, located after air filter
+- **Throttle Body:** Controls airflow into engine, contains throttle plate (butterfly valve), IAC port, TPS sensor
+- **Intake Manifold (Plenum/Runners):** Distributes air to each cylinder, plastic/composite on modern engines, common gasket leak point
+- **Intake Resonator:** Chamber in intake system that reduces air intake noise (whistle/hum)
+- **Idle Air Control (IAC):** Motor/valve that regulates idle airflow bypass around throttle plate, controls cold/hot idle speed
+- **PCV Valve/Hoses:** Routes crankcase vapors back to intake for combustion, prevents pressure buildup, oil consumption if clogged
+- **Vacuum Hoses/Lines:** Rubber hoses supplying vacuum to brake booster, PCV, EGR, HVAC controls, common leak source
+- **TPS (Throttle Position Sensor):** Monitors throttle plate angle/position (0-100%), signals PCM for fueling/ignition
+- **IAC (Intake Air Control):** Electronic or vacuum motor that bleeds air around closed throttle plate to maintain idle RPM
+- **MAF (Mass Airflow Sensor):** Hot-wire sensor measuring grams/second of air entering engine for precise fuel delivery
+- **PCV (Positive Crankcase Ventilation Valve):** One-way valve regulating crankcase pressure to intake, prevents blow-by gases
+- **Vacuum Hose and Accessory System:** Network of hoses supplying manifold vacuum to emission controls, power brakes, HVAC
 
 ## **Exhaust System:**
   ### Parts
@@ -224,6 +230,120 @@
   - **Timing Covers/Seals**
   - **Alignment Marks/Indicators**
   - **Tensioner (Mechanically/Hydraulic):**
+
+## **Gaskets:**
+  - Head gasket
+  - Intake manifold gasket
+  - Exhaust manifold gasket
+  - Valve cover gasket
+  - Oil pan gasket
+  - Timing cover gasket
+  - Water pump gasket
+  - Thermostat housing gasket
+  - Rocker cover gasket
+  - PCV valve grommet/gasket
+  - Carburetor base gasket
+  - Throttle body gasket
+  - MAP sensor gasket
+  - EGR valve gasket
+  - Manifold absolute pressure (MAP) or vacuum line gaskets
+  - Crankshaft front seal (often treated with gasket‑like sealing in context)
+  - Rear main seal area seal/gasket
+  - Cylinder head bolt thread sealer (not a gasket but commonly grouped with gasket‑related sealing)
+
+## Sensors  
+  - Mass air flow sensor (MAF)
+  - Manifold absolute pressure sensor (MAP)
+  - Throttle position sensor (TPS)
+  - Crankshaft position sensor (CKP)
+  - Camshaft position sensor (CMP)
+  - Engine coolant temperature sensor (ECT)
+  - Intake air temperature sensor (IAT)
+  - Oxygen sensor (O2)
+  - Knock sensor
+  - Oil pressure sensor
+  - Oil temperature sensor
+  - Fuel pressure sensor
+  - Fuel temperature sensor
+  - Exhaust gas recirculation (EGR) valve position sensor
+  - Idle air control (IAC) or idle speed control sensor/actuator
+  - Vehicle speed sensor (VSS)
+  - Manifold air temperature (MAT) sensor
+  - Evaporative emissions (EVAP) pressure sensor
+  - Accelerator pedal position sensor (APP)
+
+## Greases, Antifreeze, thread Lock, Rubbing Compound, Sealers
+### **Greases:**
+  - Grease
+  - High-temperature wheel bearing grease
+  - Chassis grease
+  - Synthetic grease
+  - Moly (molybdenum disulfide) grease
+  - Lithium-based grease
+  -Dielectric grease
+
+### **Antifreeze:**
+  - Ethylene glycol antifreeze
+  - Propylene glycol antifreeze
+  - Dex-Cool (OAT) coolant
+  - HOAT coolant
+  - Conventional green inorganic additive coolant (IAT)
+
+### **Locker:**
+  - Medium-strength thread locker (blue)
+  - High-strength thread locker (red)
+  - Low-strength thread locker (purple)
+  - Wicking grade thread locker (green)
+  - High-temperature thread locker
+
+### **Compoung:**
+  - Rubbing compound (coarse cut)
+  - Rubbing compound (medium cut)
+  - Rubbing compound (fine cut)
+  - Polishing compound
+  - Buffing compound
+
+### **Sealers:**
+  - RTV silicone sealer
+  - Anaerobic gasket maker
+  - Form-in-place gasket sealer
+  - Non-hardening gasket sealer
+  - Hard-setting gasket sealer
+  - Thread sealant (pipe thread sealer)
+  - Teflon/PTFE thread sealant
+  - Fuel-resistant sealant
+  - Oil-resistant sealant
+  - Coolant-resistant sealant
+  - Sensor-safe silicone sealer
+  - Exhaust joint sealer (high-temp)
+
+## **Lubricant:**
+  ### **Engine Oil:**
+  - Engine oil
+  - Conventional mineral engine oil
+  - Synthetic engine oil
+  - Semi-synthetic (blend) engine oil
+  - High-mileage engine oil
+
+### **Gear Oil**
+  - Manual transmission fluid (MTF)
+  - Automatic transmission fluid (ATF)
+
+### ** Differetial Oil:**
+  -  Limited-slip differential gear oil
+
+### **Hydraulic Oil:**
+  -  Power steering fluid
+  
+### **Chassis Lubricant:**
+  - Multi-purpose lubricant
+  - Light machine oil
+  - Penetrating oil
+  - Dry-film lubricant (e.g., PTFE spray)
+
+### Silicone Spray Lubricant:**
+  - White lithium spray lubricant
+  - Graphite lubricant
 
 ## **Miscellaneous / Other:**
   ### Parts
@@ -724,31 +844,42 @@
   - **Shaft keyways and surfaces intact** → Ready for reinstallation.
 
 # No-Start Troubleshooting
-## 1. Spark (Ignition)
+## 1. Fuel **(FIRST)**
 **Why first:**  
-Spark is the easiest to check quickly with a spark tester or scan tool. If there’s no spark, the engine won’t run regardless of fuel or compression.
+Easiest/quickest external check. Listen for pump prime, spray throttle cleaner into intake, check pressure. Fuel issues are most common and visible first.  
 **Checks include:**  
-- Spark at the plugs (using a spark tester)  
-- Ignition coil operation (COP/DIS systems)  
-- Crankshaft position sensor (CKP) and wiring  
-- Distributor/timing (on older engines)  
+- Fuel pump operation (prime with key ON - listen/whirring sound)  
+- Fuel pressure gauge at rail/schraeder valve  
+- Fuel pump fuse/relay (swap test)  
+- Fuel filter condition (visual/replace if old)  
+- Injector pulse (Noid light or scan tool)  
 
-## 2. Fuel
+## 2. Spark **(SECOND)**  
 **Why second:**  
-If spark is good, the next common cause of a no-start is fuel delivery.
+Quick spark tester check after fuel confirmed. No spark = ignition system fault.  
 **Checks include:**  
-- Fuel pressure (fuel pressure gauge at the rail)  
-- Fuel injector pulse (Noid light or scan tool)  
-- Fuel pump operation and relays/fuses  
-- Clogged filter or restricted lines  
+- Spark at plugs (spark tester - inline with plug wire)  
+- Coil packs (COP/DIS - swap test cylinders)  
+- Crankshaft position sensor (CKP) signal (scan tool/scope)  
+- Camshaft position sensor (CMP) if applicable  
+- Ignition module/control (wiring, ECM)  
 
-## 3. Compression
-**Why last:**  
-If spark and fuel are both correct, the problem is likely mechanical (low compression or internal engine issue). Compression tests are more time-consuming and require removing spark plugs.
+## 3. Compression **(THIRD)**  
+**Why third:**  
+Invasive test requiring plug removal. Only after fuel/spark verified good.  
 **Checks include:**  
-- Dry compression test (all cylinders)  
-- Wet compression test (add oil to differentiate worn rings vs. leaking valves)  
-- Leak-down test (to pinpoint leakage source: valves, rings, or head gasket)  
+- Dry compression test (all cylinders within 10-15%)  
+- Wet compression test (add oil - rings vs valves)  
+- Leak-down test (pinpoint leak source: intake/exhaust/cranksase/radiator)  
+
+## 4. Timing **(LAST)**  
+**Why last:**  
+Most complex. Cam/crank correlation only after mechanical integrity confirmed.  
+**Checks include:**  
+- Timing belt/chain condition/tension  
+- Cam/crank sensor correlation (scope/scan tool)  
+- VVT/phaser operation (variable valve timing)  
+- Mechanical timing marks alignment  
 
 # Common DTCs 
 ## 1. Ignition / Misfire
@@ -819,3 +950,42 @@ If spark and fuel are both correct, the problem is likely mechanical (low compre
 - Noid light  
 - DVOM  
 - Fuel pressure gauge  
+
+# Typical Answers
+### Safety First
+- Disable ignition system and fuel delivery before diagnostics or disassembly
+- Support engine/vehicle properly before removing mounts or components
+- Allow cooling system to cool before removing caps or components
+- Wear appropriate PPE (safety glasses, gloves) when handling fluids or disassembly
+- Follow high-voltage disconnect procedures on hybrid/electric vehicles
+
+### Tool Selection
+- Choose the **most accurate tool** (DVOM, lab scope, mechanical gauges) over quickest (test light, dash gauges)
+- Use scan tool for live data/PIDs and DTCs before mechanical tests
+- Match tool to specific measurement (micrometer for journals, dial bore gauge for cylinders, plastigage for clearances)
+
+### Diagnostic Approach
+- **Verify the concern** first (road test, duplicate customer complaint)
+- Check service bulletins (TSBs), recalls, and campaign updates
+- Perform **basic maintenance checks** first (fluids, filters, visual inspection, battery/charging)
+- Use **no-start strategy**: Fuel → Spark → Compression → Timing
+- **Root cause diagnosis** over symptom treatment (fix vacuum leak causing rich condition, not just clear code)
+
+### Repair Procedures
+- Always **reference manufacturer specifications** (torque values, patterns, fluid types)
+- Replace **single-use fasteners** (torque-to-yield head bolts, stretch bolts)
+- Use **correct replacement parts** (OEM-equivalent gaskets, seals, sensors)
+- Follow **proper torque sequences** (center-out for head bolts, crisscross for bearings)
+- Use **manufacturer-recommended fluids** (specific oil weights, coolant types, ATF specs)
+
+### Fluids & Materials
+- Match **fluid type to application** (Dex-Cool vs. green coolant, correct ATF for transmission)
+- Use **appropriate sealants** (anaerobic for machined surfaces, RTV sensor-safe for covers)
+- Apply **thread locker** per fastener specs (blue removable, red permanent)
+- **Never reuse** critical gaskets, seals, or crush washers
+
+### Verification
+- **Road test after repair** to confirm concern resolved
+- Clear DTCs and verify no codes return under operating conditions
+- Recheck critical measurements (oil pressure, fuel pressure, leaks)
+- Confirm proper operation of all repaired systems and accessories
